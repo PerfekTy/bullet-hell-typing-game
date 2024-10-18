@@ -1,5 +1,3 @@
-# psam-game
-
 ## ZAŁOŻENIA GŁÓWNE
 
 1. Gra typu Textorcist - bullet hell [2D].
