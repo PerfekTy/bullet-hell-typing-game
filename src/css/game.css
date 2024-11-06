@@ -1,0 +1,97 @@
+:root {
+    --duration: 5s;
+}
+
+@font-face {
+    font-family: arcade;
+    src: url("../assets/CosmicAlien-V4Ax.ttf") format('truetype');
+}
+
+body {
+    background-color: black;
+}
+
+.text-header {
+    font-family: arcade;
+    font-size: 35px;
+}
+
+.popup-letter {
+    font-family: arcade;
+    font-size: 50px;
+    position: absolute;
+    bottom: 0;
+}
+
+#game-board {
+    height: 75vh;
+}
+
+.enemy-word {
+    margin-top: 3vh;
+    font-family: arcade;
+    font-size: 1.5rem;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.slideDown {
+    animation: slideDown var(--duration) linear forwards;
+}
+
+.fixed-width-col {
+    width: 12.5%;
+    flex: 0 0 12.5%;
+    position: relative;
+}
+
+.active {
+    color: orange;
+}
+
+.x2 {
+    color: #edd479;
+    font-size: 23px
+}
+
+.x3 {
+    color: #f5c451;
+    animation: shake 1s infinite;
+    font-size: 25px
+}
+
+.x4 {
+    color: #ed8a34;
+    animation: shake 0.7s infinite;
+    font-size: 27px
+}
+
+.x5 {
+    color: #ed5634;
+    animation: shake 0.5s infinite;
+    font-size: 30px
+}
+
+.x6 {
+    color: #fc3030;
+    animation: shake 0.2s infinite;
+    font-size: 35px
+}
+
+@keyframes slideDown {
+    0% {
+        top: 0;
+    }
+    100% {
+        top: 71vh;
+    }
+}
+
+@keyframes shake {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(5deg); }
+    50% { transform: rotate(0eg); }
+    75% { transform: rotate(-5deg); }
+    100% { transform: rotate(0deg); }
+  }

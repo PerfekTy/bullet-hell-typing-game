@@ -1,0 +1,33 @@
+body {
+    background-color: black;
+}
+
+#bg-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -1;
+}
+
+@font-face {
+    font-family: arcade;
+    src: url("../assets/CosmicAlien-V4Ax.ttf") format('truetype');
+}
+
+.menu-title {
+    font-family: arcade;
+	font-size: 100px;
+}
+
+.menu-play {
+	font-family: arcade;
+	font-size: 40px;
+}
+
+.menu-block {
+	margin-top: 19%;
+}
