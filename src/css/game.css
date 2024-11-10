@@ -3,54 +3,75 @@
 } */
 
 @font-face {
-    font-family: arcade;
-    src: url("../assets/CosmicAlien-V4Ax.ttf") format('truetype');
+  font-family: arcade;
+  src: url("../assets/CosmicAlien-V4Ax.ttf") format("truetype");
 }
 
 body {
-    background-color: black;
+  background-color: black;
+  overflow: hidden;
 }
 
 .text-header {
-    font-family: arcade;
-    font-size: 35px;
+  font-family: arcade;
+  font-size: 35px;
 }
 
 .popup-letter {
-    font-family: arcade;
-    font-size: 50px;
-    position: absolute;
-    bottom: 0;
+  font-family: arcade;
+  font-size: 50px;
+  position: absolute;
+  bottom: 0;
 }
 
 #game-window {
-    background-image: url("../assets/images/map.png");
-    background-size: contain;
-    background-position: center;
+  background-image: url("../assets/images/map.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 #boss-section {
-    height: 25vh;
+  position: relative;
+  height: 25vh;
 }
 
 #boss {
-    background-image: url("../assets/images/boss.gif");
-    background-size: contain;
-    background-position: center;
+  position: absolute;
+  top: 80%;
+  right: 50%;
+  left: 40%;
+  margin: 0 auto;
+  width: 100px;
+  aspect-ratio: 1;
+  background-image: url("../assets/images/boss.gif");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  animation: moveLeftRight 3s infinite alternate;
+}
+
+@keyframes moveLeftRight {
+  0% {
+    left: 0;
+  }
+  100% {
+    left: calc(100% - 100px);
+  }
 }
 
 #player-section {
-    height: 55vh;
+  height: 55vh;
 }
 
 #text-section {
-    /* display: flex;
+  /* display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px; */
-    height: 11.3vh;
-    font-family: arcade;
-    font-size: 30px;
+  height: 11.3vh;
+  font-family: arcade;
+  font-size: 30px;
 }
 
 /* .slideDown {
@@ -64,7 +85,7 @@ body {
 } */
 
 .active {
-    color: orange;
+  color: orange;
 }
 
 /* @keyframes slideDown {
