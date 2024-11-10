@@ -44,38 +44,29 @@ $(document).ready(function () {
       return;
     }
 
-    // console.log(currentText);
     // displayPopupLetter(letter);
 
-    // Checking if key pressed matches any inactive first letters
     if (isKeyMatched(currentText, letter)) {
-    //     // Logic of correct key...
-    //     let correctSectionsId = correctSections.map(correctSection => correctSection.id);
         activateLetters();
 
-    //     // Get sections with activated words if exists
-    //     let activeWordsSectionsId = getSectionsIdOfActivatedWords(correctSectionsId);
-
-    //     // Check if text is activated
         if (isTextActivated()) {
-    //         updateScoreCount(activeWordsSectionsId);
+            // updateScoreCount(activeWordsSectionsId);
             playSound("./src/sound/hentai1.mp3");
             removeText();
             currentText = generateText();
             // playSound("./src/sound/wordActive1" + combo + ".mp3");
 
-    //         activeWordsSectionsId.forEach(sectionId => {
-    //             removeWordFromSection(sectionId);
-    //             resetAnimaton(sectionId);
-    //         });
+            // activeWordsSectionsId.forEach(sectionId => {
+            //     removeWordFromSection(sectionId);
+            //     resetAnimaton(sectionId);
+            // });
         } else {
             playSound("./src/sound/correctKey.mp3");
         }
     } else {
-    // Logic of incorrect key...
         playSound("./src/sound/badKey.wav");
-    //     resetScoreCount();
-    //     combo = 1;
+        // resetScoreCount();
+        // combo = 1;
     }
   });
 

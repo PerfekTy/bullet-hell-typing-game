@@ -1,8 +1,6 @@
 function getAllTexts(callback) {
     $.get("./src/texts.txt", function(data) {
         let texts = data.trim().split('\n');
-
-        // assignAttrToTexts(texts);
         callback(texts);
     });
 }
@@ -29,7 +27,6 @@ function generateText()
 {
     const randomIndex = Math.floor(Math.random() * allTexts.length);
     let randomText = allTexts[randomIndex];
-    // console.log(randomText);
     displayText(randomText);
     randomText = splitText(randomText);
 
@@ -41,7 +38,6 @@ function removeText() {
 }
 
 function adjustTextSize(sectionId) {
-    // default size
     let fontSize = 1.5;
     let section = $('#s' + sectionId);
     let text = section.find('.enemy-word');
@@ -52,9 +48,7 @@ function adjustTextSize(sectionId) {
     }
 }
 
-// Returns array of objects of letters
 function splitText(text) {
-    // Modify text to uppercase
     text = text.toUpperCase();
     let letters = [];
 
