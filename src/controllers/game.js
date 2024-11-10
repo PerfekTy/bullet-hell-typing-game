@@ -1,6 +1,4 @@
 $(document).ready(function () {
-  setInterval(generateBullet, 100); // Generate bullets every 500ms for faster shooting
-
   // lives = 3;
   timerSec = 0;
   // score = 0;
@@ -20,6 +18,7 @@ $(document).ready(function () {
   let isReady = false;
 
   $.getScript("./src/classes/game/letters/popupLetter.js");
+  $.getScript("./src/classes/game/bullets/bullet.js");
   $.getScript("./src/classes/game/sound.js");
   $.getScript("./src/classes/game/letters/letterDetection.js");
   $.getScript("./src/classes/game/text/texts.js", function () {
@@ -30,6 +29,7 @@ $(document).ready(function () {
 
       // Start the game
       run();
+      setInterval(generateBullet, 100); // Generate bullets every 500ms for faster shooting
     });
   });
 
@@ -81,12 +81,6 @@ $(document).ready(function () {
       }\
       .bullet {\
         animation: bullet-move 5s linear infinite; /* Adjust the duration here */\
-      }\
-      #player {\
-        width: 50px; /* Adjust size as needed */\
-        height: 50px; /* Adjust size as needed */\
-        background-color: red; /* Adjust color as needed */\
-        position: absolute; /* Ensure it can be positioned within the game window */\
       }"
     )
     .appendTo("head");
@@ -159,85 +153,4 @@ function hideGameElements() {
 
 function showGameOverElements() {
   $("#gameOver").show();
-}
-
-function generateBullet() {
-  let bullet = $('<div class="bullet"></div>');
-  let boss = $("#boss");
-  let bossWidth = boss.width();
-  let bossHeight = boss.height();
-  let randomX = (Math.random() - 0.5) * 2000;
-  let randomY = (Math.random() - 0.5) * 2000;
-
-  bullet.css({
-    left: bossWidth / 2 + "px",
-    top: bossHeight / 2 + "px",
-    "--random-x": randomX + "px",
-    "--random-y": randomY + "px",
-  });
-
-  $("#bullets").append(bullet);
-
-  function checkCollision() {
-    let bulletPosition = bullet.position();
-    let gameWindow = $("#game-window");
-    let gameWindowWidth = gameWindow.width();
-    let gameWindowHeight = gameWindow.height();
-
-    if (bulletPosition) {
-      if (
-        bulletPosition.left <= 0 ||
-        bulletPosition.left >= gameWindowWidth - bullet.width()
-      ) {
-        bullet.css("--random-x", -parseFloat(bullet.css("--random-x")) + "px");
-      }
-      if (
-        bulletPosition.top <= 0 ||
-        bulletPosition.top >= gameWindowHeight - bullet.height()
-      ) {
-        bullet.css("--random-y", -parseFloat(bullet.css("--random-y")) + "px");
-      }
-
-      if (checkWallCollision(bullet)) {
-        handleWallCollision(bullet);
-      }
-    }
-  }
-
-  setInterval(checkCollision, 50);
-
-  function checkWallCollision(bullet) {
-    let bulletOffset = bullet.offset();
-
-    if (!bulletOffset) {
-      return false;
-    }
-
-    return (
-      checkElementCollision(bullet, $("#top-wall")) ||
-      checkElementCollision(bullet, $("#bottom-wall")) ||
-      checkElementCollision(bullet, $("#left-wall")) ||
-      checkElementCollision(bullet, $("#right-wall"))
-    );
-  }
-
-  function checkElementCollision(bullet, wall) {
-    let bulletOffset = bullet.offset();
-    let wallOffset = wall.offset();
-
-    if (!bulletOffset || !wallOffset) {
-      return false;
-    }
-
-    return !(
-      bulletOffset.left > wallOffset.left + wall.width() ||
-      bulletOffset.left + bullet.width() < wallOffset.left ||
-      bulletOffset.top > wallOffset.top + wall.height() ||
-      bulletOffset.top + bullet.height() < wallOffset.top
-    );
-  }
-
-  function handleWallCollision(bullet) {
-    bullet.remove();
-  }
 }
