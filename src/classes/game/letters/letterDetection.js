@@ -1,68 +1,36 @@
-function getCorrectSections(key) {
-    let correctSections = [];
-
-    // We are checking sections if isBusy
-    // then we check for letters in word in section
-    // if letter in word is inactive then we check if key equals that letter
-    sections.forEach(section => {
-        if (section.isBusy) {
-            let isFound = false;
-
-            section.word.forEach(letterObject => {
-                if (isFound) {
-                    return;
-                }
-
-                let letterKey = Object.keys(letterObject)[0];
-                let letterValue = letterObject[letterKey];
-
-                if (!letterValue && letterKey === key) {
-                    correctSections.push(section);
-                    isFound = true;
-                } else if (!letterValue) {
-                    isFound = true;
-                }
-            })
+function isKeyMatched(text, key) {
+    for (let item of text) {
+        const [letter, status] = Object.entries(item)[0];
+        if (!status) {
+            return letter === key;
         }
-    });
-
-    return correctSections;
+    }
+    return false;
 }
 
 // Set true to letters that were matched
-function activateLetters(sectionsId) {
-    sectionsId.forEach(sectionId => {
-        let isActivated = false;
-
-        sections[sectionId - 1].word.forEach((letterObject, index) => {
-            if (isActivated) {
-                return;
-            }
-
-            let letterKey = Object.keys(letterObject)[0];
-            let letterValue = letterObject[letterKey];
-
-            if (!letterValue) {
-                letterObject[letterKey] = true;
-                $("#" + sectionId + "-" + index).addClass("active");
-                isActivated = true;
-            }
-
-        })
-    })
+function activateLetters() {
+    for (let i = 0; i < currentText.length; i++) {
+        const [letter, status] = Object.entries(currentText[i])[0];
+        if (!status) {
+            currentText[i][letter] = true;
+            $("#letter-" + i).addClass("active");
+            break;
+        }
+    }
 }
 
 // Get section with activated words
-function getSectionsIdOfActivatedWords(sectionsId) {
-    let activatedSectionsId = [];
+// function getSectionsIdOfActivatedWords(sectionsId) {
+//     let activatedSectionsId = [];
 
-    sectionsId.forEach(sectionId => {
-        let section = sections[sectionId - 1];
+//     sectionsId.forEach(sectionId => {
+//         let section = sections[sectionId - 1];
 
-        if (section && section.word.every(letterObject => Object.values(letterObject)[0])) {
-            activatedSectionsId.push(sectionId);
-        }
-    });
+//         if (section && section.word.every(letterObject => Object.values(letterObject)[0])) {
+//             activatedSectionsId.push(sectionId);
+//         }
+//     });
 
-    return activatedSectionsId;
-}
+//     return activatedSectionsId;
+// }
