@@ -65,6 +65,19 @@ body {
   }
 }
 
+.bullet {
+  animation: bullet-move 5s linear infinite;
+}
+
+@keyframes bullet-move {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(var(--random-x), var(--random-y));
+  }
+}
+
 #player-section {
   height: 55vh;
 }
