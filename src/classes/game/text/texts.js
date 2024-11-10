@@ -9,18 +9,34 @@ function getAllTexts(callback) {
 
 function displayText(text) {
     let html = "";
+    let letterIndex = 0;
 
-    for (let i = 0; i < text.length; i++) {
-        let letterId = "letter-" + i;
-
-        html += '<span id="' + letterId + '">' + text[i] + '</span>';
-    }
+    text.split('').forEach((char) => {
+        if (char === " ") {
+            html += '<span>' + char + '</span>';
+        } else {
+            let letterId = "letter-" + letterIndex;
+            html += '<span id="' + letterId + '">' + char + '</span>';
+            letterIndex++;
+        }
+    });
 
     $("#text-section").html(html);
     // adjustTextSize(sectionId);
 }
 
-function removeText(sectionId) {
+function generateText()
+{
+    const randomIndex = Math.floor(Math.random() * allTexts.length);
+    let randomText = allTexts[randomIndex];
+    // console.log(randomText);
+    displayText(randomText);
+    randomText = splitText(randomText);
+
+    return randomText;
+}
+
+function removeText() {
     $("#text-section").html("");
 }
 
@@ -42,10 +58,21 @@ function splitText(text) {
     text = text.toUpperCase();
     let letters = [];
 
-    for (let i = 0; i < word.length; i++) {
-        let letter = word[i];
+    for (let i = 0; i < text.length; i++) {
+        if (text[i] === " ") {
+            continue;
+        }
+
+        let letter = text[i];
         letters.push({ [letter]: false });
     }
 
     return letters;
+}
+
+function isTextActivated() {
+    return currentText.every(item => {
+        const status = Object.values(item)[0];
+        return status === true;
+    });
 }
