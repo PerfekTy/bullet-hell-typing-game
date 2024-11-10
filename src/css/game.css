@@ -25,6 +25,7 @@ body {
 }
 
 #game-window {
+  position: relative;
   background-image: url("../assets/images/map.png");
   background-size: contain;
   background-position: center;
@@ -48,7 +49,7 @@ body {
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
-  animation: moveLeftRight 3s infinite alternate;
+  /* animation: moveLeftRight 3s infinite alternate; */
 }
 
 #b {
@@ -149,3 +150,36 @@ body {
     75% { transform: rotate(-5deg); }
     100% { transform: rotate(0deg); }
   } */
+
+.wall {
+  position: absolute;
+  background-color: red; /* Make walls invisible */
+}
+
+#top-wall {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 10px; /* Adjust thickness as needed */
+}
+
+#bottom-wall {
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 10px; /* Adjust thickness as needed */
+}
+
+#left-wall {
+  top: 0;
+  left: 0;
+  width: 10px; /* Adjust thickness as needed */
+  height: 100%;
+}
+
+#right-wall {
+  top: 0;
+  right: 0;
+  width: 10px; /* Adjust thickness as needed */
+  height: 100%;
+}
