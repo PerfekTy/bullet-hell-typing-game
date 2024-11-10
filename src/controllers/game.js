@@ -24,10 +24,8 @@ $(document).ready(function () {
   $.getScript("./src/classes/game/text/texts.js", function () {
     getAllTexts(function (texts) {
       allTexts = texts;
-      // sections = getSections();
       isReady = true;
 
-      // Start the game
       run();
       setInterval(generateBullet, 100); // Generate bullets every 500ms for faster shooting
     });
@@ -51,9 +49,11 @@ $(document).ready(function () {
 
         if (isTextActivated()) {
             // updateScoreCount(activeWordsSectionsId);
-            playSound("./src/sound/hentai1.mp3");
-            removeText();
-            currentText = generateText();
+            playSound("./src/sound/hentai7.mp3");
+            animateTextUp(() => {
+                removeText();
+                currentText = generateText();
+            });
             // playSound("./src/sound/wordActive1" + combo + ".mp3");
 
             // activeWordsSectionsId.forEach(sectionId => {

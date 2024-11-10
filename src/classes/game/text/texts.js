@@ -19,8 +19,8 @@ function displayText(text) {
         }
     });
 
-    $("#text-section").html(html);
-    // adjustTextSize(sectionId);
+    $("#text").html(html);
+    adjustTextSize();
 }
 
 function generateText()
@@ -34,13 +34,12 @@ function generateText()
 }
 
 function removeText() {
-    $("#text-section").html("");
+    $("#text").html("");
 }
 
-function adjustTextSize(sectionId) {
+function adjustTextSize() {
     let fontSize = 1.5;
-    let section = $('#s' + sectionId);
-    let text = section.find('.enemy-word');
+    let text = $('#text');
 
     while (text[0].scrollWidth > text[0].clientWidth) {
         fontSize -= 0.1;
@@ -69,4 +68,19 @@ function isTextActivated() {
         const status = Object.values(item)[0];
         return status === true;
     });
+}
+
+function animateTextUp(callback) {
+
+    $("#text").animate(
+        {
+            top: "-30rem"
+        },
+        400,
+        "linear",
+        function() {
+            $("#text").css("top", "0");
+            callback();
+        }
+    );
 }
