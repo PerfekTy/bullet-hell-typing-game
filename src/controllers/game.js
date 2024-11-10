@@ -6,32 +6,28 @@ $(document).ready(function() {
     // combo = 1;
     // speed = 1;
 
-    // allWords = [];
+    allTexts = [];
     // sections = [];
     // wordGenerateInterval = '';
     timerInterval = '';
-    isBackgroundPlaying = true;
-
-    // hentaiMode = 0;
+    isBackgroundPlaying = false;
 
     // isReady checks if everything is loaded
     // before starting the game
     let isReady = false;
 
-    // tutaj wczytujemy inne pliki, jak wszystkie pliki się wczytają
-    // to odpalamy run(), które będzie takim głównym silnikiem gry
     $.getScript("./src/classes/game/letters/popupLetter.js");
     $.getScript("./src/classes/game/sound.js");
-    // $.getScript("./src/classes/game/score.js");
-    $.getScript("./src/classes/game/letters/letterDetection.js", function() {
-        // getAllWords(function(words) {
-            // allWords = words;
+    $.getScript("./src/classes/game/letters/letterDetection.js");
+    $.getScript("./src/classes/game/text/texts.js", function() {
+        getAllTexts(function(texts) {
+            allTexts = texts;
             // sections = getSections();
             isReady = true;
 
             // Start the game
             run();
-        // });
+        });
     });
 
     $(document).keydown(function(e) {
@@ -45,7 +41,7 @@ $(document).ready(function() {
             return;
         }
 
-        displayPopupLetter(letter);
+        // displayPopupLetter(letter);
 
         // let correctSections = getCorrectSections(letter);
 
@@ -76,7 +72,7 @@ $(document).ready(function() {
         //     }
         // } else {
         //     // Logic of incorrect key...
-            playSound("./src/sound/badKey.wav");
+            // playSound("./src/sound/badKey.wav");
         //     resetScoreCount();
         //     combo = 1;
         // }
@@ -85,6 +81,8 @@ $(document).ready(function() {
 
 function run(isRetry = false) {
     timeCounter();
+
+    displayText(allTexts[0]);
 
     if (isBackgroundPlaying) {
         playBackgroundMusic();

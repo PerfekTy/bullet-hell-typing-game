@@ -1,6 +1,6 @@
-:root {
+/* :root {
     --duration: 5s;
-}
+} */
 
 @font-face {
     font-family: arcade;
@@ -23,63 +23,51 @@ body {
     bottom: 0;
 }
 
-#game-board {
-    height: 75vh;
+#game-window {
+    background-image: url("../assets/images/map.png");
+    background-size: contain;
+    background-position: center;
 }
 
-.enemy-word {
-    margin-top: 3vh;
+#boss-section {
+    height: 25vh;
+}
+
+#boss {
+    background-image: url("../assets/images/boss.gif");
+    background-size: contain;
+    background-position: center;
+}
+
+#player-section {
+    height: 55vh;
+}
+
+#text-section {
+    /* display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; */
+    height: 11.3vh;
     font-family: arcade;
-    font-size: 1.5rem;
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    font-size: 30px;
 }
 
-.slideDown {
+/* .slideDown {
     animation: slideDown var(--duration) linear forwards;
-}
+} */
 
-.fixed-width-col {
+/* .fixed-width-col {
     width: 12.5%;
     flex: 0 0 12.5%;
     position: relative;
-}
+} */
 
 .active {
     color: orange;
 }
 
-.x2 {
-    color: #edd479;
-    font-size: 23px
-}
-
-.x3 {
-    color: #f5c451;
-    animation: shake 1s infinite;
-    font-size: 25px
-}
-
-.x4 {
-    color: #ed8a34;
-    animation: shake 0.7s infinite;
-    font-size: 27px
-}
-
-.x5 {
-    color: #ed5634;
-    animation: shake 0.5s infinite;
-    font-size: 30px
-}
-
-.x6 {
-    color: #fc3030;
-    animation: shake 0.2s infinite;
-    font-size: 35px
-}
-
-@keyframes slideDown {
+/* @keyframes slideDown {
     0% {
         top: 0;
     }
@@ -94,4 +82,4 @@ body {
     50% { transform: rotate(0eg); }
     75% { transform: rotate(-5deg); }
     100% { transform: rotate(0deg); }
-  }
+  } */
