@@ -1,8 +1,6 @@
 function getAllTexts(callback) {
     $.get("./src/texts.txt", function(data) {
         let texts = data.trim().split('\n');
-
-        // assignAttrToTexts(texts);
         callback(texts);
     });
 }
@@ -21,15 +19,14 @@ function displayText(text) {
         }
     });
 
-    $("#text-section").html(html);
-    // adjustTextSize(sectionId);
+    $("#text").html(html);
+    adjustTextSize();
 }
 
 function generateText()
 {
     const randomIndex = Math.floor(Math.random() * allTexts.length);
     let randomText = allTexts[randomIndex];
-    // console.log(randomText);
     displayText(randomText);
     randomText = splitText(randomText);
 
@@ -37,14 +34,12 @@ function generateText()
 }
 
 function removeText() {
-    $("#text-section").html("");
+    $("#text").html("");
 }
 
-function adjustTextSize(sectionId) {
-    // default size
+function adjustTextSize() {
     let fontSize = 1.5;
-    let section = $('#s' + sectionId);
-    let text = section.find('.enemy-word');
+    let text = $('#text');
 
     while (text[0].scrollWidth > text[0].clientWidth) {
         fontSize -= 0.1;
@@ -52,9 +47,7 @@ function adjustTextSize(sectionId) {
     }
 }
 
-// Returns array of objects of letters
 function splitText(text) {
-    // Modify text to uppercase
     text = text.toUpperCase();
     let letters = [];
 
@@ -75,4 +68,19 @@ function isTextActivated() {
         const status = Object.values(item)[0];
         return status === true;
     });
+}
+
+function animateTextUp(callback) {
+
+    $("#text").animate(
+        {
+            top: "-30rem"
+        },
+        400,
+        "linear",
+        function() {
+            $("#text").css("top", "0");
+            callback();
+        }
+    );
 }

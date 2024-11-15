@@ -24,10 +24,8 @@ $(document).ready(function () {
   $.getScript("./src/classes/game/text/texts.js", function () {
     getAllTexts(function (texts) {
       allTexts = texts;
-      // sections = getSections();
       isReady = true;
 
-      // Start the game
       run();
       // setInterval(generateBullet, 2000); // Generate bullets every 500ms for faster shooting
     });
@@ -44,38 +42,31 @@ $(document).ready(function () {
       return;
     }
 
-    // console.log(currentText);
     // displayPopupLetter(letter);
 
-    // Checking if key pressed matches any inactive first letters
     if (isKeyMatched(currentText, letter)) {
-      //     // Logic of correct key...
-      //     let correctSectionsId = correctSections.map(correctSection => correctSection.id);
-      activateLetters();
+        activateLetters();
 
-      //     // Get sections with activated words if exists
-      //     let activeWordsSectionsId = getSectionsIdOfActivatedWords(correctSectionsId);
+        if (isTextActivated()) {
+            // updateScoreCount(activeWordsSectionsId);
+            playSound("./src/sound/hentai7.mp3");
+            animateTextUp(() => {
+                removeText();
+                currentText = generateText();
+            });
+            // playSound("./src/sound/wordActive1" + combo + ".mp3");
 
-      //     // Check if text is activated
-      if (isTextActivated()) {
-        //         updateScoreCount(activeWordsSectionsId);
-        playSound("./src/sound/hentai1.mp3");
-        removeText();
-        currentText = generateText();
-        // playSound("./src/sound/wordActive1" + combo + ".mp3");
-
-        //         activeWordsSectionsId.forEach(sectionId => {
-        //             removeWordFromSection(sectionId);
-        //             resetAnimaton(sectionId);
-        //         });
-      } else {
-        playSound("./src/sound/correctKey.mp3");
-      }
+            // activeWordsSectionsId.forEach(sectionId => {
+            //     removeWordFromSection(sectionId);
+            //     resetAnimaton(sectionId);
+            // });
+        } else {
+            playSound("./src/sound/correctKey.mp3");
+        }
     } else {
-      // Logic of incorrect key...
-      playSound("./src/sound/badKey.wav");
-      //     resetScoreCount();
-      //     combo = 1;
+        playSound("./src/sound/badKey.wav");
+        // resetScoreCount();
+        // combo = 1;
     }
   });
 
