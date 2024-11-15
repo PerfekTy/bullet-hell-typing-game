@@ -4,7 +4,7 @@ function generateBullet() {
   let bossWidth = boss.width();
   let bossHeight = boss.height();
   let randomX = (Math.random() - 0.5) * 2000;
-  let randomY = (Math.random() - 0.5) * 2000;
+  let randomY = (Math.random() - 0.1) * 2000; //de bugged by michal
 
   bullet.css({
     left: bossWidth / 2 + "px",
@@ -20,16 +20,16 @@ function generateBullet() {
     let gameWindow = $("#game-window");
     let gameWindowWidth = gameWindow.width();
     let gameWindowHeight = gameWindow.height();
-
+    
     if (bulletPosition) {
       if (
-        bulletPosition.left <= 0 ||
+        bulletPosition.left <= -gameWindowWidth - bullet.width() || //de bugged by michal
         bulletPosition.left >= gameWindowWidth - bullet.width()
       ) {
         bullet.css("--random-x", -parseFloat(bullet.css("--random-x")) + "px");
       }
       if (
-        bulletPosition.top <= 0 ||
+        bulletPosition.top <= -gameWindowHeight - bullet.height() || //de bugged by michal
         bulletPosition.top >= gameWindowHeight - bullet.height()
       ) {
         bullet.css("--random-y", -parseFloat(bullet.css("--random-y")) + "px");
