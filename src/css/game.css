@@ -20,6 +20,19 @@ body {
   bottom: 0;
 }
 
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.loading {
+  font-family: arcade;
+  font-size: 50px;
+  color: white;
+}
+
 #game-window {
   position: relative;
   background-image: url("../assets/images/map.png");
@@ -84,17 +97,21 @@ body {
   font-family: arcade;
   font-size: 30px;
   background-color: #d2b48c;
-    border: 2px solid #8b7d6b;
-    border-radius: 8px;
-    padding: 10px 20px;
-    color: #3e3e3e; 
-    font-weight: bold;
-    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
-    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 70%),
-                      radial-gradient(circle, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0) 70%);
-    background-blend-mode: multiply;
-    background-size: 200px 200px;
-    line-height: 90px;
+  border: 2px solid #8b7d6b;
+  border-radius: 8px;
+  padding: 10px 20px;
+  color: #3e3e3e;
+  font-weight: bold;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+  background-image: radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.2) 0%,
+      rgba(255, 255, 255, 0) 70%
+    ),
+    radial-gradient(circle, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0) 70%);
+  background-blend-mode: multiply;
+  background-size: 200px 200px;
+  line-height: 90px;
 }
 
 #text {
@@ -194,18 +211,18 @@ body {
 
 @keyframes explode {
   0% {
-      width: 0;
-      height: 0;
-      opacity: 1;
+    width: 0;
+    height: 0;
+    opacity: 1;
   }
   50% {
-      width: 150px; /* Zwiększamy rozmiar */
-      height: 150px; /* Zwiększamy rozmiar */
-      opacity: 0.5; /* Zmniejszamy przezroczystość */
+    width: 150px; /* Zwiększamy rozmiar */
+    height: 150px; /* Zwiększamy rozmiar */
+    opacity: 0.5; /* Zmniejszamy przezroczystość */
   }
   100% {
-      width: 200px; /* Końcowy rozmiar */
-      height: 200px;
-      opacity: 0; /* Efekt zanikania */
+    width: 200px; /* Końcowy rozmiar */
+    height: 200px;
+    opacity: 0; /* Efekt zanikania */
   }
 }

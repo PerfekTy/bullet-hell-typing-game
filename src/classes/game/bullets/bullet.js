@@ -1,14 +1,13 @@
 function generateBullet() {
   let bullet = $('<div class="bullet"></div>');
   let boss = $("#boss");
-  let bossWidth = boss.width();
-  let bossHeight = boss.height();
+  let bossPosition = boss.position();
   let randomX = (Math.random() - 0.5) * 2000;
   let randomY = (Math.random() - 0.1) * 2000; //de bugged by michal
 
   bullet.css({
-    left: bossWidth / 2 + "px",
-    top: bossHeight / 2 + "px",
+    left: bossPosition.left + boss.width() / 2 + "px",
+    top: bossPosition.top + boss.height() / 2 + "px",
     "--random-x": randomX + "px",
     "--random-y": randomY + "px",
   });
@@ -20,7 +19,7 @@ function generateBullet() {
     let gameWindow = $("#game-window");
     let gameWindowWidth = gameWindow.width();
     let gameWindowHeight = gameWindow.height();
-    
+
     if (bulletPosition) {
       if (
         bulletPosition.left <= -gameWindowWidth - bullet.width() || //de bugged by michal
