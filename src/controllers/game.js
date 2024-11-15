@@ -29,7 +29,7 @@ $(document).ready(function () {
 
       // Start the game
       run();
-      setInterval(generateBullet, 100); // Generate bullets every 500ms for faster shooting
+      // setInterval(generateBullet, 2000); // Generate bullets every 500ms for faster shooting
     });
   });
 
@@ -80,19 +80,6 @@ $(document).ready(function () {
   });
 
   // Add this line to set the bullet animation duration
-  $("<style>")
-    .prop("type", "text/css")
-    .html(
-      "\
-      @keyframes bullet-move {\
-        0% { transform: translate(0, 0); }\
-        100% { transform: translate(var(--random-x), var(--random-y)); }\
-      }\
-      .bullet {\
-        animation: bullet-move 5s linear infinite; /* Adjust the duration here */\
-      }"
-    )
-    .appendTo("head");
 });
 
 function run(isRetry = false) {
