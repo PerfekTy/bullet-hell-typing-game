@@ -22,9 +22,10 @@ body {
 
 .center {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 93vh;
 }
 
 .loading {
@@ -92,8 +93,7 @@ body {
 }
 
 #text-section {
-  position: relative;
-  height: 11.3vh;
+  position: absolute;
   font-family: arcade;
   font-size: 30px;
   background-color: #d2b48c;
@@ -112,6 +112,7 @@ body {
   background-blend-mode: multiply;
   background-size: 200px 200px;
   line-height: 90px;
+  bottom: 0;
 }
 
 #text {

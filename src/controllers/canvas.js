@@ -2,8 +2,10 @@ window.onload = function () {
   const canvas = document.getElementById("canvas");
   const ctx = canvas.getContext("2d");
   const loading = document.getElementById("loading");
+  const playerText = document.getElementById("text-section");
 
   canvas.style.display = "none";
+  playerText.style.display = "none";
 
   canvas.width = 800 * 1.5;
   canvas.height = 600 * 2;
@@ -17,6 +19,7 @@ window.onload = function () {
     bossGif.onload = function () {
       loading.style.display = "none";
       canvas.style.display = "block";
+      playerText.style.display = "block";
       let bossX = 0;
       let direction = 2;
       const bullets = [];
