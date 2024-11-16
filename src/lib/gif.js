@@ -526,3 +526,5 @@ const GIF = function () {
   };
   return gif;
 };
+
+window.GIF = GIF;
