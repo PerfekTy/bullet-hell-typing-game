@@ -1,33 +1,33 @@
 $(document).ready(function () {
-  // lives = 3;
+  lives = 3;
   timerSec = 0;
-  // score = 0;
-  // scoreCount = 0;
-  // combo = 1;
-  // speed = 1;
+  score = 0;
+  scoreCount = 0;
+  combo = 1;
+  currentLetterScore = 20;
+  speed = 1;
 
   allTexts = [];
   currentText = [];
-  // sections = [];
-  // wordGenerateInterval = '';
   timerInterval = "";
   isBackgroundPlaying = false;
 
   // isReady checks if everything is loaded
-  // before starting the game
+  // before starting the games
   let isReady = false;
 
   $.getScript("./src/classes/game/letters/popupLetter.js");
   $.getScript("./src/classes/game/bullets/bullet.js");
   $.getScript("./src/classes/game/sound.js");
   $.getScript("./src/classes/game/letters/letterDetection.js");
+  $.getScript("./src/classes/game/score.js");
+  $.getScript("./src/classes/game/difficulty.js");
   $.getScript("./src/classes/game/text/texts.js", function () {
     getAllTexts(function (texts) {
       allTexts = texts;
       isReady = true;
 
       run();
-      // setInterval(generateBullet, 2000); // Generate bullets every 500ms for faster shooting
     });
   });
 
@@ -42,35 +42,24 @@ $(document).ready(function () {
       return;
     }
 
-    // displayPopupLetter(letter);
-
     if (isKeyMatched(currentText, letter)) {
-        activateLetters();
+      activateLetters();
+      playSound("./src/sound/correct" + combo + ".mp3");
+      updateScoreCount(currentLetterScore);
 
-        if (isTextActivated()) {
-            // updateScoreCount(activeWordsSectionsId);
-            playSound("./src/sound/hentai7.mp3");
-            animateTextUp(() => {
-                removeText();
-                currentText = generateText();
-            });
-            // playSound("./src/sound/wordActive1" + combo + ".mp3");
-
-            // activeWordsSectionsId.forEach(sectionId => {
-            //     removeWordFromSection(sectionId);
-            //     resetAnimaton(sectionId);
-            // });
-        } else {
-            playSound("./src/sound/correctKey.mp3");
-        }
+      if (isTextActivated()) {
+          playSound("./src/sound/hentai5.mp3");
+          animateTextUp(() => {
+              removeText();
+              currentText = generateText();
+          });
+      }
     } else {
-        playSound("./src/sound/badKey.wav");
-        // resetScoreCount();
-        // combo = 1;
+        playSound("./src/sound/fuck.mp3");
+        resetScoreCount();
+        combo = 1;
     }
   });
-
-  // Add this line to set the bullet animation duration
 });
 
 function run(isRetry = false) {

@@ -210,6 +210,35 @@ body {
   animation: explode 0.3s forwards;
 }
 
+.x2 {
+  color: #edd479;
+  font-size: 23px
+}
+
+.x3 {
+  color: #f5c451;
+  animation: shake 1s infinite;
+  font-size: 25px
+}
+
+.x4 {
+  color: #ed8a34;
+  animation: shake 0.7s infinite;
+  font-size: 27px
+}
+
+.x5 {
+  color: #ed5634;
+  animation: shake 0.5s infinite;
+  font-size: 30px
+}
+
+.x6 {
+  color: #fc3030;
+  animation: shake 0.2s infinite;
+  font-size: 35px
+}
+
 @keyframes explode {
   0% {
     width: 0;
@@ -226,4 +255,12 @@ body {
     height: 200px;
     opacity: 0; /* Efekt zanikania */
   }
+}
+
+@keyframes shake {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(5deg); }
+  50% { transform: rotate(0eg); }
+  75% { transform: rotate(-5deg); }
+  100% { transform: rotate(0deg); }
 }
