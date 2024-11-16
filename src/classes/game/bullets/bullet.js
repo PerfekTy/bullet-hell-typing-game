@@ -1,17 +1,16 @@
-// function generateBullet() {
-//   let bullet = $('<div class="bullet"></div>');
-//   let boss = $("#boss");
-//   let bossWidth = boss.width();
-//   let bossHeight = boss.height();
-//   let randomX = (Math.random() - 0.5) * 2000;
-//   let randomY = (Math.random() - 0.5) * 2000;
+function generateBullet() {
+  let bullet = $('<div class="bullet"></div>');
+  let boss = $("#boss");
+  let bossPosition = boss.position();
+  let randomX = (Math.random() - 0.5) * 2000;
+  let randomY = (Math.random() - 0.1) * 2000; //de bugged by michal
 
-//   bullet.css({
-//     left: bossWidth / 2 + "px",
-//     top: bossHeight / 2 + "px",
-//     "--random-x": randomX + "px",
-//     "--random-y": randomY + "px",
-//   });
+  bullet.css({
+    left: bossPosition.left + boss.width() / 2 + "px",
+    top: bossPosition.top + boss.height() / 2 + "px",
+    "--random-x": randomX + "px",
+    "--random-y": randomY + "px",
+  });
 
 //   $("#bullets").append(bullet);
 
@@ -21,19 +20,19 @@
 //     let gameWindowWidth = gameWindow.width();
 //     let gameWindowHeight = gameWindow.height();
 
-//     if (bulletPosition) {
-//       if (
-//         bulletPosition.left <= 0 ||
-//         bulletPosition.left >= gameWindowWidth - bullet.width()
-//       ) {
-//         bullet.css("--random-x", -parseFloat(bullet.css("--random-x")) + "px");
-//       }
-//       if (
-//         bulletPosition.top <= 0 ||
-//         bulletPosition.top >= gameWindowHeight - bullet.height()
-//       ) {
-//         bullet.css("--random-y", -parseFloat(bullet.css("--random-y")) + "px");
-//       }
+    if (bulletPosition) {
+      if (
+        bulletPosition.left <= -gameWindowWidth - bullet.width() || //de bugged by michal
+        bulletPosition.left >= gameWindowWidth - bullet.width()
+      ) {
+        bullet.css("--random-x", -parseFloat(bullet.css("--random-x")) + "px");
+      }
+      if (
+        bulletPosition.top <= -gameWindowHeight - bullet.height() || //de bugged by michal
+        bulletPosition.top >= gameWindowHeight - bullet.height()
+      ) {
+        bullet.css("--random-y", -parseFloat(bullet.css("--random-y")) + "px");
+      }
 
 //       if (checkWallCollision(bullet)) {
 //         handleWallCollision(bullet);
