@@ -1,0 +1,19 @@
+.gameover-block {
+    margin-top: 12%;
+}
+
+.gameover-title {
+    font-family: arcade;
+	font-size: 100px;
+}
+
+.gameover-results {
+    margin-top: 5%;
+    text-align: left;
+}
+
+.gameover-text {
+    font-family: arcade;
+	font-size: 40px;
+}
+

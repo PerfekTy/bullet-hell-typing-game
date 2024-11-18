@@ -1,35 +1,56 @@
 $(document).ready(function () {
   lives = 3;
-  timerSec = 0;
+  timerSec = 1;
   score = 0;
   scoreCount = 0;
   combo = 1;
   currentLetterScore = 20;
-  speed = 1;
+  level = 1;
+  isRetry = 0;
+
+  isPaused = false;
 
   allTexts = [];
   currentText = [];
   timerInterval = "";
-  isBackgroundPlaying = false;
+  isBackgroundPlaying = true;
 
   // isReady checks if everything is loaded
   // before starting the games
   let isReady = false;
 
-  $.getScript("./src/classes/game/letters/popupLetter.js");
-  $.getScript("./src/classes/game/bullets/bullet.js");
-  $.getScript("./src/classes/game/sound.js");
-  $.getScript("./src/classes/game/letters/letterDetection.js");
-  $.getScript("./src/classes/game/score.js");
-  $.getScript("./src/classes/game/difficulty.js");
-  $.getScript("./src/classes/game/text/texts.js", function () {
-    getAllTexts(function (texts) {
-      allTexts = texts;
-      isReady = true;
+  $.getScript("./src/classes/game/canvas/canvasSetup.js", function () {
+    $.getScript("./src/classes/game/canvas/boss.js", function () {
+        bossLoadComplete = function () {
+            $.getScript("./src/classes/game/canvas/player.js");
+            $.getScript("./src/classes/game/letters/popupLetter.js");
+            $.getScript("./src/classes/game/bullets/bullet0.js");
+            $.getScript("./src/classes/game/bullets/bullet1.js");
+            $.getScript("./src/classes/game/bullets/bullet2.js");
+            $.getScript("./src/classes/game/canvas/controls.js");
 
-      run();
+            $.getScript("./src/classes/game/canvas/bullets.js");
+            $.getScript("./src/classes/game/sound.js");
+            $.getScript("./src/classes/game/letters/letterDetection.js");
+            $.getScript("./src/classes/game/score.js");
+            $.getScript("./src/classes/game/difficulty.js");
+            $.getScript("./src/classes/game/text/texts.js", function () {
+                getAllTexts(function (texts) {
+                    allTexts = texts;
+                    isReady = true;
+                    animate();
+                    manageBulletWaves();
+
+                    if (isBackgroundPlaying) {
+                      playBackgroundMusic();
+                    }
+
+                    run();
+                });
+            });
+        };
     });
-  });
+});
 
   $(document).keydown(function (e) {
     if (!isReady) {
@@ -48,7 +69,7 @@ $(document).ready(function () {
       updateScoreCount(currentLetterScore);
 
       if (isTextActivated()) {
-          playSound("./src/sound/hentai5.mp3");
+          playSound("./src/sound/textActivated.wav", 0.5);
           animateTextUp(() => {
               removeText();
               currentText = generateText();
@@ -62,44 +83,43 @@ $(document).ready(function () {
   });
 });
 
-function run(isRetry = false) {
+function run() {
   timeCounter();
 
-  if (isBackgroundPlaying) {
-    playBackgroundMusic();
-  }
-
   currentText = generateText();
+}
 
-  // isAnimationFinished(function(sectionId) {
-  //     removeWordFromSection(sectionId);
-  //     resetAnimaton(sectionId);
-  //     resetScoreCount();
-  //     lives--;
-  //     $("#lives").text(lives);
+window.addEventListener('bulletPlayerCollision', function () {
+  if (!isPaused) {
+    lives--;
+    $("#lives").text(lives);
+    if (lives == 0) {
+      clearInterval(timerInterval);
+      hideGameElements()
+      isPaused = true;
 
-  //     if (lives == 0) {
-  //         resetAllAnimations();
-  //         removeAllWordsFromSections();
-  //         removeAnimationListeners();
-  //         clearInterval(wordGenerateInterval);
-  //         clearInterval(timerInterval);
-  //         playSound("./src/sound/gameOver.mp3");
-  //         hideGameElements();
+      if (isRetry) {
+        showGameOverElements();
+        gameOverProcess();
+      } else {
+        $('#gameOver').load('./src/view/gameOver.html', function() {
+          $.getScript("./src/controllers/gameOver.js");
+        });
+      }
+    } else {
+      playSound("./src/sound/hentai1.mp3");
+      resetScoreCount();
+      combo = 1;
+    }
+  }
+});
 
-  //         if (isRetry) {
-  //             showGameOverElements();
-
-  //             gameOverProcess();
-  //         } else {
-  //             $('#gameOver').load('./src/view/gameOver.html', function() {
-  //                 $.getScript("./src/controllers/gameOver.js");
-  //             });
-  //         }
-  //     } else {
-  //         playSound("./src/sound/injury.mp3");
-  //     }
-  // })
+function animate() {
+  generateMap();
+  bossSystem();
+  bulletSystem();
+  playerSystem();
+  requestAnimationFrame(animate);
 }
 
 function timeCounter() {
@@ -125,6 +145,7 @@ function timeCounter() {
 
 function hideGameElements() {
   $("#game").hide();
+  hideCanvas();
 }
 
 function showGameOverElements() {
