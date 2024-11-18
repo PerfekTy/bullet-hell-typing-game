@@ -10,13 +10,13 @@ mapImage.src = "./src/assets/images/map.png";
 ctx.drawImage(mapImage, 0, 0, canvas.width, canvas.height);
 
 function generateMap() {
-    ctx.drawImage(mapImage, 0, 0, canvas.width, canvas.height);
+  ctx.drawImage(mapImage, 0, 0, canvas.width, canvas.height);
 }
 
 function hideCanvas() {
-    canvas.style.display = "none";
+  canvas.style.display = "none";
 }
 
 function showCanvas() {
-    canvas.style.display = "block";
+  canvas.style.display = "block";
 }

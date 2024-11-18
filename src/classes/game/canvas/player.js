@@ -12,16 +12,10 @@ const playerSize = 80;
 
 function playerSystem() {
   updatePlayerPosition();
-  const currentPlayerImage = isPlayerMoving()
-    ? playerWalkImage
-    : playerImage;
-  if (
-    currentPlayerImage.complete &&
-    currentPlayerImage.naturalHeight !== 0
-  ) {
+  const currentPlayerImage = isPlayerMoving() ? playerWalkImage : playerImage;
+  if (currentPlayerImage.complete && currentPlayerImage.naturalHeight !== 0) {
     const aspectRatio =
-      currentPlayerImage.naturalWidth /
-      currentPlayerImage.naturalHeight;
+      currentPlayerImage.naturalWidth / currentPlayerImage.naturalHeight;
     ctx.drawImage(
       currentPlayerImage,
       playerX,
@@ -29,6 +23,11 @@ function playerSystem() {
       playerSize * aspectRatio,
       playerSize
     );
+
+    // hitbox
+    ctx.strokeStyle = "red";
+    ctx.lineWidth = 2;
+    ctx.strokeRect(playerX, playerY, playerSize * aspectRatio, playerSize);
   }
 }
 
