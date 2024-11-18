@@ -9,4 +9,3 @@
 7. Gra w postaci aplikacji webowej.
 8. Dokumentacja najważniejszych modułów i całej aplikacji.
 
-(Branch do debugowania przed mergem)
