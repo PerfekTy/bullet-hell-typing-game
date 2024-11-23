@@ -92,7 +92,7 @@ function run() {
 
 window.addEventListener("bulletPlayerCollision", function () {
   if (!isPaused) {
-    lives--;
+    // lives--;
     $("#lives").text(lives);
     if (lives == 0) {
       clearInterval(timerInterval);

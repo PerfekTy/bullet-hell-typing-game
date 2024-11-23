@@ -5,7 +5,7 @@ $(document).ready(function() {
     let gameRunning = false;
 
     // Remove to see menu
-    // gameRunning = skipMenu(gameRunning);
+    gameRunning = skipMenu(gameRunning);
 
     textAnimation = animateText(interval, "menuStart");
 

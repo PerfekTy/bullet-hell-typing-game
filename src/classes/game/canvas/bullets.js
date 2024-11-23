@@ -84,7 +84,8 @@ function bulletSystem() {
       );
       const frame = explosion.gif.frames[frameIndex];
       if (frame && frame.image) {
-        ctx.drawImage(frame.image, explosion.x, explosion.y, 40, 40); // Increased size from 30x30 to 40x40
+        const size = explosion.size || 40; // Default size for other explosions
+        ctx.drawImage(frame.image, explosion.x, explosion.y, size, size);
       }
     } else {
       explosions.splice(index, 1);
@@ -204,4 +205,14 @@ function bulletHitsWall(bullet) {
 function bulletPlayerCollisionEvent() {
   const event = new CustomEvent("bulletPlayerCollision");
   window.dispatchEvent(event);
+}
+
+function displayTextExplosion(x, y) {
+  explosions.push({
+    x: x + 30,
+    y: y + 20,
+    time: Date.now(),
+    gif: textExplosion,
+    size: 100, 
+  });
 }

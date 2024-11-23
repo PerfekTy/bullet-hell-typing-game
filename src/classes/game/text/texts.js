@@ -1,3 +1,6 @@
+const textExplosion = new GIF();
+textExplosion.load("./src/assets/misc/explosion.gif");
+
 function getAllTexts(callback) {
     $.get("./src/texts.txt", function(data) {
         let texts = data.trim().split('\n');
@@ -74,13 +77,25 @@ function animateTextUp(callback) {
 
     $("#text").animate(
         {
-            top: "-30rem"
+            top: "-38rem"
         },
         400,
         "linear",
         function() {
             $("#text").css("top", "0");
+
+            // Uruchomienie wybuchu
+            triggerExplosion();
+
             callback();
         }
     );
+}
+
+function triggerExplosion() {
+    const explosionX = bossX;
+    const explosionY = canvas.height / 2 - 330;
+
+    displayTextExplosion(explosionX, explosionY);
+    playSound("./src/sound/explosion.mp3");
 }
