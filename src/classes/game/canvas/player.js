@@ -32,8 +32,6 @@ function playerSystem() {
     const headY = playerY + headRadius;
     ctx.beginPath();
     ctx.arc(headX, headY, headRadius, 0, Math.PI * 2);
-    ctx.strokeStyle = "red"; // Change hitbox color
-    ctx.stroke();
 
     // torso hitbox (oval)
     const torsoWidth = playerSize * aspectRatio * 0.6;
@@ -50,51 +48,42 @@ function playerSystem() {
       0,
       Math.PI * 2
     );
-    ctx.strokeStyle = "red"; // Change hitbox color
-    ctx.stroke();
   }
 }
 
 function checkBulletPlayerCollision(bullet) {
-  // head hitbox (circle)
+  // head hitbox
   const headRadius = playerSize * 0.2;
   const headX = playerX + (playerSize * aspectRatio) / 2;
   const headY = playerY + headRadius;
 
-  // torso hitbox (oval)
+  // torso hitbox
   const torsoWidth = playerSize * aspectRatio * 0.6;
   const torsoHeight = playerSize * 0.5;
   const torsoX = playerX + (playerSize * aspectRatio) / 2 - torsoWidth / 2;
   const torsoY = playerY + headRadius * 2;
 
-  // bullet hitbox (circle)
-  const bulletRadius = (bullet.size / 2) * 0.8; // Reduce bullet hitbox size
+  // bullet hitbox
+  const bulletRadius = (bullet.size / 2) * 0.8;
   const bulletX = bullet.x + bullet.size / 2;
   const bulletY = bullet.y + bullet.size / 2;
 
-  // Draw bullet hitbox
+  // bullet hitbox
   ctx.beginPath();
   ctx.arc(bulletX, bulletY, bulletRadius, 0, Math.PI * 2);
-  ctx.strokeStyle = "green"; // Change hitbox color
-  ctx.lineWidth = 3; // Set hitbox outline thickness
-  ctx.stroke();
 
-  // Check collision with head hitbox
+  // Check collision with head
   const distXHead = Math.abs(bulletX - headX);
   const distYHead = Math.abs(bulletY - headY);
   const distanceHead = Math.sqrt(distXHead * distXHead + distYHead * distYHead);
   const headCollision = distanceHead < headRadius + bulletRadius;
 
-  // Check collision with torso hitbox
+  // Check collision with torso
   const distXTorso = Math.abs(bulletX - (torsoX + torsoWidth / 2));
   const distYTorso = Math.abs(bulletY - (torsoY + torsoHeight / 2));
   const torsoCollision =
     distXTorso < torsoWidth / 2 + bulletRadius &&
     distYTorso < torsoHeight / 2 + bulletRadius;
-
-  if (headCollision || torsoCollision) {
-    console.log("Player hit!");
-  }
 
   return headCollision || torsoCollision;
 }

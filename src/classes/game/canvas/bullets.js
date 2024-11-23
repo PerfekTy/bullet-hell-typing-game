@@ -1,9 +1,16 @@
 let bulletInterval;
 let bullets = [];
-const explosionImage = new Image();
-explosionImage.src = "./src/assets/misc/expolde_bullet.png";
+const orangeBulletExpGif = new GIF();
+orangeBulletExpGif.load("./src/assets/misc/bullet_orange_exp.gif");
+const greenBulletExpGif = new GIF();
+greenBulletExpGif.load("./src/assets/misc/bullet_green_exp.gif");
+const greenBulletSmallExpGif = new GIF();
+greenBulletSmallExpGif.load("./src/assets/misc/bullet_green_small_exp.gif");
+const redBulletExpGif = new GIF();
+redBulletExpGif.load("./src/assets/misc/bullet_red_exp.gif");
 let explosions = [];
 const bulletHit = false;
+const explosionDuration = 500; // Set the duration of the explosion to 500ms
 
 function bulletSystem() {
   bullets.forEach((bullet, index) => {
@@ -11,10 +18,10 @@ function bulletSystem() {
     bullet.y += bullet.vy;
     if (bullet.image.complete && bullet.image.naturalHeight !== 0) {
       if (bullet.size === 60 || bullet.isRed) {
-        bullet.rotation += 0.1; // Update rotation
+        bullet.rotation += 0.1;
         ctx.save();
         ctx.translate(bullet.x + bullet.size / 2, bullet.y + bullet.size / 2);
-        ctx.rotate(bullet.rotation); // Rotate based on bullet's rotation property
+        ctx.rotate(bullet.rotation);
         ctx.drawImage(
           bullet.image,
           -bullet.size / 2,
@@ -49,20 +56,36 @@ function bulletSystem() {
       bullet.y < 0 ||
       bullet.y > canvas.height - bullet.size
     ) {
-      if (explosionImage.complete && explosionImage.naturalHeight !== 0) {
-        explosions.push({ x: bullet.x, y: bullet.y, time: Date.now() });
-      }
       if (bullet.canSplit && bullet.bounces < 2) {
         splitBullet(bullet, index);
       } else {
-        bullets.splice(index, 1); // Remove normal bullets after hitting a wall
+        explosions.push({
+          x: bullet.x,
+          y: bullet.y,
+          time: Date.now(),
+          gif: bullet.isRed
+            ? redBulletExpGif
+            : bullet.size === 30
+            ? orangeBulletExpGif
+            : bullet.size === 60
+            ? greenBulletExpGif
+            : greenBulletSmallExpGif,
+        });
+        bullets.splice(index, 1);
       }
     }
   });
 
   explosions.forEach((explosion, index) => {
-    if (Date.now() - explosion.time < 2000) {
-      ctx.drawImage(explosionImage, explosion.x, explosion.y, 30, 30);
+    if (Date.now() - explosion.time < explosionDuration) {
+      const frameIndex = Math.floor(
+        ((Date.now() - explosion.time) / explosionDuration) *
+          explosion.gif.frames.length
+      );
+      const frame = explosion.gif.frames[frameIndex];
+      if (frame && frame.image) {
+        ctx.drawImage(frame.image, explosion.x, explosion.y, 40, 40); // Increased size from 30x30 to 40x40
+      }
     } else {
       explosions.splice(index, 1);
     }
@@ -89,9 +112,6 @@ function generateBullet(
   const bulletImage = new Image();
   bulletImage.src = "./src/assets/misc/bullet" + type + ".png";
   bulletImage.onload = function () {
-    // const randomValue = Math.random();
-    // const isGreenBullet = randomValue < 0.2; // 20% chance to be a green bullet
-    // const isRedBullet = randomValue >= 0.2 && randomValue < 0.4; // 20% chance to be a red bullet
     const bullet = {
       image: new Image(),
       x: startX,
@@ -104,7 +124,6 @@ function generateBullet(
       rotation: rotation,
       isRed: type == 2 ? 1 : 0,
       explodeTime: explodeTime,
-      // explodeTime: isRedBullet ? Date.now() + Math.random() * 2000 : null, // Set random explode time for red bullet
     };
     bullet.image.src = bulletImage.src;
     bullets.push(bullet);
@@ -112,9 +131,21 @@ function generateBullet(
 }
 
 function splitBullet(bullet, index) {
+  explosions.push({
+    x: bullet.x,
+    y: bullet.y,
+    time: Date.now(),
+    gif: greenBulletExpGif,
+  });
+
   const centerX = canvas.width / 2;
   const centerY = canvas.height / 2;
-  const angles = [Math.PI / 4, -Math.PI / 4, Math.PI / 6, -Math.PI / 6];
+  const angles = [
+    Math.PI / 4 + (Math.random() - 0.5) * 0.2,
+    -Math.PI / 4 + (Math.random() - 0.5) * 0.2,
+    Math.PI / 6 + (Math.random() - 0.5) * 0.2,
+    -Math.PI / 6 + (Math.random() - 0.5) * 0.2,
+  ];
   const newBulletImage = new Image();
   newBulletImage.src = "./src/assets/misc/bullet1_small.png";
   const newBullets = angles.map((angle) => {
@@ -126,16 +157,17 @@ function splitBullet(bullet, index) {
       vx: Math.cos(newAngle) * 5,
       vy: Math.sin(newAngle) * 5,
       bounces: bullet.bounces,
-      size: bullet.size * 0.8, // Reduce hitbox size for bullet1_small.png
-      canSplit: false, // New bullets cannot split further
+      size: bullet.size * 0.3,
+      canSplit: false,
+      isRed: false,
     };
   });
   bullets.push(...newBullets);
-  bullets.splice(index, 1); // Remove the original bullet after splitting
+  bullets.splice(index, 1);
 }
 
 function explodeRedBullet(bullet, index) {
-  const angles = Array.from({ length: 8 }, (_, i) => (i * Math.PI) / 4); // 8 directions
+  const angles = Array.from({ length: 8 }, (_, i) => (i * Math.PI) / 4);
   const newBulletImage = new Image();
   newBulletImage.src = "./src/assets/misc/bullet2_small.png";
   const newBullets = angles.map((angle) => {
@@ -146,12 +178,18 @@ function explodeRedBullet(bullet, index) {
       vx: Math.cos(angle) * 5,
       vy: Math.sin(angle) * 5,
       bounces: 0,
-      size: 30, // Small red bullets
+      size: 30,
       canSplit: false,
     };
   });
   bullets.push(...newBullets);
-  bullets.splice(index, 1); // Remove the original red bullet after exploding
+  explosions.push({
+    x: bullet.x,
+    y: bullet.y,
+    time: Date.now(),
+    gif: redBulletExpGif,
+  });
+  bullets.splice(index, 1);
 }
 
 function bulletHitsWall(bullet) {
