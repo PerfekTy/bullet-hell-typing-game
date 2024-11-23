@@ -3,23 +3,25 @@
 
 const playerImage = new Image();
 playerImage.src = "./src/assets/images/player.png";
-const playerWalkImage = new Image();
-playerWalkImage.src = "./src/assets/images/player_walk.gif";
+const playerIdleGif = new GIF();
+playerIdleGif.load("./src/assets/images/player_idle.gif");
+const playerWalkGif = new GIF();
+playerWalkGif.load("./src/assets/images/player_walk.gif");
 let playerX = canvas.width / 2;
 let playerY = canvas.height / 2;
-const playerSpeed = 5;
+const playerSpeed = 3;
 const playerSize = 80;
 
 let aspectRatio;
 
 function playerSystem() {
   updatePlayerPosition();
-  const currentPlayerImage = isPlayerMoving() ? playerWalkImage : playerImage;
-  if (currentPlayerImage.complete && currentPlayerImage.naturalHeight !== 0) {
-    aspectRatio =
-      currentPlayerImage.naturalWidth / currentPlayerImage.naturalHeight;
+  const currentPlayerGif = isPlayerMoving() ? playerWalkGif : playerIdleGif;
+  if (currentPlayerGif.complete && currentPlayerGif.frames.length > 0) {
+    const currentFrame = currentPlayerGif.frames[currentPlayerGif.currentFrame];
+    aspectRatio = currentFrame.image.width / currentFrame.image.height;
     ctx.drawImage(
-      currentPlayerImage,
+      currentFrame.image,
       playerX,
       playerY,
       playerSize * aspectRatio,
