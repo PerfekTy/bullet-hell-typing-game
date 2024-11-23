@@ -13,10 +13,7 @@ function bulletSystem() {
       if (bullet.size === 60 || bullet.isRed) {
         bullet.rotation += 0.1; // Update rotation
         ctx.save();
-        ctx.translate(
-          bullet.x + bullet.size / 2,
-          bullet.y + bullet.size / 2
-        );
+        ctx.translate(bullet.x + bullet.size / 2, bullet.y + bullet.size / 2);
         ctx.rotate(bullet.rotation); // Rotate based on bullet's rotation property
         ctx.drawImage(
           bullet.image,
@@ -52,10 +49,7 @@ function bulletSystem() {
       bullet.y < 0 ||
       bullet.y > canvas.height - bullet.size
     ) {
-      if (
-        explosionImage.complete &&
-        explosionImage.naturalHeight !== 0
-      ) {
+      if (explosionImage.complete && explosionImage.naturalHeight !== 0) {
         explosions.push({ x: bullet.x, y: bullet.y, time: Date.now() });
       }
       if (bullet.canSplit && bullet.bounces < 2) {
@@ -75,7 +69,18 @@ function bulletSystem() {
   });
 }
 
-function generateBullet(type, startX, startY, velocityX, velocityY, bounces, size, canSplit, rotation, explodeTime) {
+function generateBullet(
+  type,
+  startX,
+  startY,
+  velocityX,
+  velocityY,
+  bounces,
+  size,
+  canSplit,
+  rotation,
+  explodeTime
+) {
   startX = startX || bossX + 75;
   startY = startY || canvas.height / 2 - 255;
   velocityX = velocityX || (Math.random() - 0.5) * 10;
@@ -97,8 +102,8 @@ function generateBullet(type, startX, startY, velocityX, velocityY, bounces, siz
       size: size,
       canSplit: canSplit,
       rotation: rotation,
-      isRed: (type == 2) ? 1 : 0,
-      explodeTime: explodeTime
+      isRed: type == 2 ? 1 : 0,
+      explodeTime: explodeTime,
       // explodeTime: isRedBullet ? Date.now() + Math.random() * 2000 : null, // Set random explode time for red bullet
     };
     bullet.image.src = bulletImage.src;
@@ -113,8 +118,7 @@ function splitBullet(bullet, index) {
   const newBulletImage = new Image();
   newBulletImage.src = "./src/assets/misc/bullet1_small.png";
   const newBullets = angles.map((angle) => {
-    const newAngle =
-      Math.atan2(centerY - bullet.y, centerX - bullet.x) + angle;
+    const newAngle = Math.atan2(centerY - bullet.y, centerX - bullet.x) + angle;
     return {
       image: newBulletImage,
       x: bullet.x,
@@ -122,7 +126,7 @@ function splitBullet(bullet, index) {
       vx: Math.cos(newAngle) * 5,
       vy: Math.sin(newAngle) * 5,
       bounces: bullet.bounces,
-      size: bullet.size, // Green bullets retain the original size
+      size: bullet.size * 0.8, // Reduce hitbox size for bullet1_small.png
       canSplit: false, // New bullets cannot split further
     };
   });
@@ -160,6 +164,6 @@ function bulletHitsWall(bullet) {
 }
 
 function bulletPlayerCollisionEvent() {
-  const event = new CustomEvent('bulletPlayerCollision');
+  const event = new CustomEvent("bulletPlayerCollision");
   window.dispatchEvent(event);
 }

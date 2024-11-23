@@ -10,11 +10,13 @@ let playerY = canvas.height / 2;
 const playerSpeed = 5;
 const playerSize = 80;
 
+let aspectRatio;
+
 function playerSystem() {
   updatePlayerPosition();
   const currentPlayerImage = isPlayerMoving() ? playerWalkImage : playerImage;
   if (currentPlayerImage.complete && currentPlayerImage.naturalHeight !== 0) {
-    const aspectRatio =
+    aspectRatio =
       currentPlayerImage.naturalWidth / currentPlayerImage.naturalHeight;
     ctx.drawImage(
       currentPlayerImage,
@@ -24,30 +26,75 @@ function playerSystem() {
       playerSize
     );
 
-    // hitbox
-    ctx.strokeStyle = "red";
-    ctx.lineWidth = 2;
-    ctx.strokeRect(playerX, playerY, playerSize * aspectRatio, playerSize);
+    // head hitbox (circle)
+    const headRadius = playerSize * 0.2;
+    const headX = playerX + (playerSize * aspectRatio) / 2;
+    const headY = playerY + headRadius;
+    ctx.beginPath();
+    ctx.arc(headX, headY, headRadius, 0, Math.PI * 2);
+    ctx.strokeStyle = "red"; // Change hitbox color
+    ctx.stroke();
+
+    // torso hitbox (oval)
+    const torsoWidth = playerSize * aspectRatio * 0.6;
+    const torsoHeight = playerSize * 0.5;
+    const torsoX = playerX + (playerSize * aspectRatio) / 2 - torsoWidth / 2;
+    const torsoY = playerY + headRadius * 2;
+    ctx.beginPath();
+    ctx.ellipse(
+      torsoX + torsoWidth / 2,
+      torsoY + torsoHeight / 2,
+      torsoWidth / 2,
+      torsoHeight / 2,
+      0,
+      0,
+      Math.PI * 2
+    );
+    ctx.strokeStyle = "red"; // Change hitbox color
+    ctx.stroke();
   }
 }
 
 function checkBulletPlayerCollision(bullet) {
-  const playerRect = {
-    x: playerX,
-    y: playerY,
-    width: playerSize,
-    height: playerSize,
-  };
-  const bulletRect = {
-    x: bullet.x,
-    y: bullet.y,
-    width: bullet.size,
-    height: bullet.size,
-  };
-  return (
-    playerRect.x < bulletRect.x + bulletRect.width &&
-    playerRect.x + playerRect.width > bulletRect.x &&
-    playerRect.y < bulletRect.y + bulletRect.height &&
-    playerRect.y + playerRect.height > bulletRect.y
-  );
+  // head hitbox (circle)
+  const headRadius = playerSize * 0.2;
+  const headX = playerX + (playerSize * aspectRatio) / 2;
+  const headY = playerY + headRadius;
+
+  // torso hitbox (oval)
+  const torsoWidth = playerSize * aspectRatio * 0.6;
+  const torsoHeight = playerSize * 0.5;
+  const torsoX = playerX + (playerSize * aspectRatio) / 2 - torsoWidth / 2;
+  const torsoY = playerY + headRadius * 2;
+
+  // bullet hitbox (circle)
+  const bulletRadius = (bullet.size / 2) * 0.8; // Reduce bullet hitbox size
+  const bulletX = bullet.x + bullet.size / 2;
+  const bulletY = bullet.y + bullet.size / 2;
+
+  // Draw bullet hitbox
+  ctx.beginPath();
+  ctx.arc(bulletX, bulletY, bulletRadius, 0, Math.PI * 2);
+  ctx.strokeStyle = "green"; // Change hitbox color
+  ctx.lineWidth = 3; // Set hitbox outline thickness
+  ctx.stroke();
+
+  // Check collision with head hitbox
+  const distXHead = Math.abs(bulletX - headX);
+  const distYHead = Math.abs(bulletY - headY);
+  const distanceHead = Math.sqrt(distXHead * distXHead + distYHead * distYHead);
+  const headCollision = distanceHead < headRadius + bulletRadius;
+
+  // Check collision with torso hitbox
+  const distXTorso = Math.abs(bulletX - (torsoX + torsoWidth / 2));
+  const distYTorso = Math.abs(bulletY - (torsoY + torsoHeight / 2));
+  const torsoCollision =
+    distXTorso < torsoWidth / 2 + bulletRadius &&
+    distYTorso < torsoHeight / 2 + bulletRadius;
+
+  if (headCollision || torsoCollision) {
+    console.log("Player hit!");
+  }
+
+  return headCollision || torsoCollision;
 }
