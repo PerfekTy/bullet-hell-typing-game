@@ -1,6 +1,3 @@
-// const playerText = document.getElementById("text-section");
-// playerText.style.display = "block";
-
 const playerImage = new Image();
 playerImage.src = "./src/assets/images/player.png";
 const playerIdleGif = new GIF();
@@ -9,7 +6,7 @@ const playerWalkGif = new GIF();
 playerWalkGif.load("./src/assets/images/player_walk.gif");
 let playerX = canvas.width / 2;
 let playerY = canvas.height / 2;
-const playerSpeed = 3;
+const playerSpeed = 5;
 const playerSize = 80;
 
 let aspectRatio;

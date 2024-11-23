@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  lives = 10;
+  lives = 3;
   timerSec = 1;
   score = 0;
   scoreCount = 0;
@@ -77,7 +77,7 @@ $(document).ready(function () {
         });
       }
     } else {
-      playSound("./src/sound/fuck.mp3");
+      playSound("./src/sound/bad.mp3");
       resetScoreCount();
       combo = 1;
     }
@@ -92,14 +92,16 @@ function run() {
 
 window.addEventListener("bulletPlayerCollision", function () {
   if (!isPaused) {
-    // lives--;
+    lives--;
     $("#lives").text(lives);
     if (lives == 0) {
       clearInterval(timerInterval);
       hideGameElements();
       isPaused = true;
+      playSound("./src/sound/BINGO.mp3");
 
       if (isRetry) {
+        $(document).keydown(restartGame);
         showGameOverElements();
         gameOverProcess();
       } else {

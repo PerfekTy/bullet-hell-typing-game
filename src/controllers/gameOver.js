@@ -1,9 +1,7 @@
 $(document).ready(function() {
     gameOverProcess();
 
-    $(document).keydown(function(event) {
-        restartGame(event);
-    });
+    $(document).keydown(restartGame);
 })
 
 function gameOverProcess() {

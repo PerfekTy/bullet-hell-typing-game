@@ -84,7 +84,6 @@ function animateTextUp(callback) {
         function() {
             $("#text").css("top", "0");
 
-            // Uruchomienie wybuchu
             triggerExplosion();
 
             callback();
