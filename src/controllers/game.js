@@ -107,7 +107,7 @@ window.addEventListener('bulletPlayerCollision', function () {
         });
       }
     } else {
-      playSound("./src/sound/hentai1.mp3");
+      playSound("./src/sound/injury.mp3");
       resetScoreCount();
       combo = 1;
     }
