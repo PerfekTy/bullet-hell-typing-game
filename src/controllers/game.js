@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  lives = 3;
+  lives = 10;
   timerSec = 1;
   score = 0;
   scoreCount = 0;
@@ -21,36 +21,37 @@ $(document).ready(function () {
 
   $.getScript("./src/classes/game/canvas/canvasSetup.js", function () {
     $.getScript("./src/classes/game/canvas/boss.js", function () {
-        bossLoadComplete = function () {
-            $.getScript("./src/classes/game/canvas/player.js");
-            $.getScript("./src/classes/game/letters/popupLetter.js");
-            $.getScript("./src/classes/game/bullets/bullet0.js");
-            $.getScript("./src/classes/game/bullets/bullet1.js");
-            $.getScript("./src/classes/game/bullets/bullet2.js");
-            $.getScript("./src/classes/game/canvas/controls.js");
+      bossLoadComplete = function () {
+        $.getScript("./src/classes/game/canvas/player.js", function () {
+          $.getScript("./src/classes/game/letters/popupLetter.js");
+          $.getScript("./src/classes/game/bullets/bullet0.js");
+          $.getScript("./src/classes/game/bullets/bullet1.js");
+          $.getScript("./src/classes/game/bullets/bullet2.js");
+          $.getScript("./src/classes/game/canvas/controls.js");
 
-            $.getScript("./src/classes/game/canvas/bullets.js");
-            $.getScript("./src/classes/game/sound.js");
-            $.getScript("./src/classes/game/letters/letterDetection.js");
-            $.getScript("./src/classes/game/score.js");
-            $.getScript("./src/classes/game/difficulty.js");
-            $.getScript("./src/classes/game/text/texts.js", function () {
-                getAllTexts(function (texts) {
-                    allTexts = texts;
-                    isReady = true;
-                    animate();
-                    manageBulletWaves();
+          $.getScript("./src/classes/game/canvas/bullets.js");
+          $.getScript("./src/classes/game/sound.js");
+          $.getScript("./src/classes/game/letters/letterDetection.js");
+          $.getScript("./src/classes/game/score.js");
+          $.getScript("./src/classes/game/difficulty.js");
+          $.getScript("./src/classes/game/text/texts.js", function () {
+            getAllTexts(function (texts) {
+              allTexts = texts;
+              isReady = true;
+              animate();
+              manageBulletWaves();
 
-                    if (isBackgroundPlaying) {
-                      playBackgroundMusic();
-                    }
+              if (isBackgroundPlaying) {
+                playBackgroundMusic();
+              }
 
-                    run();
-                });
+              run();
             });
-        };
+          });
+        });
+      };
     });
-});
+  });
 
   $(document).keydown(function (e) {
     if (!isReady) {
@@ -69,16 +70,16 @@ $(document).ready(function () {
       updateScoreCount(currentLetterScore);
 
       if (isTextActivated()) {
-          playSound("./src/sound/textActivated.wav", 0.5);
-          animateTextUp(() => {
-              removeText();
-              currentText = generateText();
-          });
+        playSound("./src/sound/textActivated.wav", 0.5);
+        animateTextUp(() => {
+          removeText();
+          currentText = generateText();
+        });
       }
     } else {
-        playSound("./src/sound/fuck.mp3");
-        resetScoreCount();
-        combo = 1;
+      playSound("./src/sound/fuck.mp3");
+      resetScoreCount();
+      combo = 1;
     }
   });
 });
@@ -89,20 +90,20 @@ function run() {
   currentText = generateText();
 }
 
-window.addEventListener('bulletPlayerCollision', function () {
+window.addEventListener("bulletPlayerCollision", function () {
   if (!isPaused) {
     lives--;
     $("#lives").text(lives);
     if (lives == 0) {
       clearInterval(timerInterval);
-      hideGameElements()
+      hideGameElements();
       isPaused = true;
 
       if (isRetry) {
         showGameOverElements();
         gameOverProcess();
       } else {
-        $('#gameOver').load('./src/view/gameOver.html', function() {
+        $("#gameOver").load("./src/view/gameOver.html", function () {
           $.getScript("./src/controllers/gameOver.js");
         });
       }
