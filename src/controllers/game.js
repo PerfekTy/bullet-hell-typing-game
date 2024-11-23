@@ -77,7 +77,7 @@ $(document).ready(function () {
         });
       }
     } else {
-      playSound("./src/sound/bad.mp3");
+      playSound("./src/sound/bad.mp3", 0.5);
       resetScoreCount();
       combo = 1;
     }
