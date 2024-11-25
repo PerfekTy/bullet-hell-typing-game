@@ -87,4 +87,4 @@ npx http-server .
 
 ## Jak uruchomić projekt online
 
-Wejdz w link -> [Bullet Hell Typing Game](perfekty.github.io/psam-game/)
+Wejdz w link -> [Bullet Hell Typing Game](perfekty.github.io/bullet-hell-typing-game/)
