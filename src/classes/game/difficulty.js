@@ -29,7 +29,7 @@ function manageBulletWaves() {
                 wave2();
                 break;
             case 3:
-                shotRate = 200;
+                shotRate = 50;
                 wave3();
                 break;
             case 4:
@@ -57,7 +57,7 @@ function manageBulletWaves() {
                 wave9();
                 break;
             case 10:
-                shotRate = 5200;
+                shotRate = 2500;
                 wave10();
                 break;
             default:
